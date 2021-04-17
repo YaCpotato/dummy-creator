@@ -5,7 +5,6 @@ import json
 class DummyFrame:
     def __init__(self):
         self.cols = []
-        self.dummy_frame = pd.DataFrame()
     
     def create_numeric(self,col_name,data_length):
         self.cols.append(self.Numeric(col_name,data_length).publish())
@@ -29,9 +28,7 @@ class DummyFrame:
     
     
     def publish(self):
-        for col in self.cols:
-            self.dummy_frame.append(col, ignore_index=True)
-        
+        self.dummy_frame = pd.DataFrame(self.cols).transpose()
         print(self.dummy_frame.head())
         return
         
