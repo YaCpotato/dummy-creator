@@ -29,8 +29,7 @@ class DummyFrame:
     
     def publish(self):
         self.dummy_frame = pd.DataFrame(self.cols).transpose()
-        print(self.dummy_frame.head())
-        return
+        return self.dummy_frame
         
     class Numeric:
         def __init__(self,col_name,data_length):

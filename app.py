@@ -1,6 +1,6 @@
 import numpy as np
 import dash
-import dash_table
+import dash_table as dt
 import pandas as pd
 import dash_core_components as dcc
 import dash_html_components as html
@@ -27,16 +27,22 @@ app.layout = html.Div([
         ),
         html.Button('Submit', id='submit-val', n_clicks=0),
         html.Div(id='textarea-example-output', style={'whiteSpace': 'pre-line'})
-    ])
+    ]),
+    html.Div(id="table1")
 ])
 
 @app.callback(
-    Output('textarea-example-output', 'children'),
+    Output('table1', 'children'),
     Input('submit-val', 'n_clicks')
 )
 def update_output(value):
-    result = fn.example()
-    return result
+    df = fn.DummyFrame()
+    df.create_numeric('test', 30)
+    df.create_numeric('test-2', 30)
+    result = df.publish()
+    data = result.to_dict('rows')
+    columns =  [{"name": i, "id": i,} for i in (result.columns)]
+    return dt.DataTable(data=data, columns=columns)
 
 
 if __name__ == '__main__':
